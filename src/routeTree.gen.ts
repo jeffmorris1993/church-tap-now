@@ -16,7 +16,12 @@ import { Route as GoRouteImport } from './routes/go'
 import { Route as GiveRouteImport } from './routes/give'
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminApprovalsRouteImport } from './routes/admin.approvals'
+import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
 
 const TodayRoute = TodayRouteImport.update({
   id: '/today',
@@ -53,14 +58,40 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminApprovalsRoute = AdminApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/events': typeof EventsRoute
   '/feedback': typeof FeedbackRoute
   '/give': typeof GiveRoute
@@ -68,6 +99,10 @@ export interface FileRoutesByFullPath {
   '/kids': typeof KidsRoute
   '/new': typeof NewRoute
   '/today': typeof TodayRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/approvals': typeof AdminApprovalsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,10 +113,15 @@ export interface FileRoutesByTo {
   '/kids': typeof KidsRoute
   '/new': typeof NewRoute
   '/today': typeof TodayRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/approvals': typeof AdminApprovalsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/events': typeof EventsRoute
   '/feedback': typeof FeedbackRoute
   '/give': typeof GiveRoute
@@ -89,11 +129,16 @@ export interface FileRoutesById {
   '/kids': typeof KidsRoute
   '/new': typeof NewRoute
   '/today': typeof TodayRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/approvals': typeof AdminApprovalsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/events'
     | '/feedback'
     | '/give'
@@ -101,6 +146,10 @@ export interface FileRouteTypes {
     | '/kids'
     | '/new'
     | '/today'
+    | '/admin/announcements'
+    | '/admin/approvals'
+    | '/admin/events'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,9 +160,14 @@ export interface FileRouteTypes {
     | '/kids'
     | '/new'
     | '/today'
+    | '/admin/announcements'
+    | '/admin/approvals'
+    | '/admin/events'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/events'
     | '/feedback'
     | '/give'
@@ -121,10 +175,15 @@ export interface FileRouteTypes {
     | '/kids'
     | '/new'
     | '/today'
+    | '/admin/announcements'
+    | '/admin/approvals'
+    | '/admin/events'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   EventsRoute: typeof EventsRoute
   FeedbackRoute: typeof FeedbackRoute
   GiveRoute: typeof GiveRoute
@@ -185,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -192,11 +258,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/approvals': {
+      id: '/admin/approvals'
+      path: '/approvals'
+      fullPath: '/admin/approvals'
+      preLoaderRoute: typeof AdminApprovalsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/announcements': {
+      id: '/admin/announcements'
+      path: '/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof AdminAnnouncementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
+  AdminApprovalsRoute: typeof AdminApprovalsRoute
+  AdminEventsRoute: typeof AdminEventsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
+  AdminApprovalsRoute: AdminApprovalsRoute,
+  AdminEventsRoute: AdminEventsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   EventsRoute: EventsRoute,
   FeedbackRoute: FeedbackRoute,
   GiveRoute: GiveRoute,
