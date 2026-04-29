@@ -60,9 +60,9 @@ function AdminNav() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const items = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-    { to: "/admin/events", label: "Events", icon: CalendarDays },
-    { to: "/admin/announcements", label: "Announcements", icon: Megaphone },
-    { to: "/admin/approvals", label: "Approvals", icon: CheckSquare },
+    { to: "/admin/events", label: "Events", icon: CalendarDays, exact: false },
+    { to: "/admin/announcements", label: "Announcements", icon: Megaphone, exact: false },
+    { to: "/admin/approvals", label: "Approvals", icon: CheckSquare, exact: false },
   ] as const;
   return (
     <nav className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-4 pb-3">
