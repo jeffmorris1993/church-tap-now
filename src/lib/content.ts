@@ -117,6 +117,26 @@ export const announcements: Announcement[] = [
   },
 ];
 
+export interface ServiceTime {
+  day: string;
+  time: string;
+  title: string;
+}
+
+export const serviceTimes: ServiceTime[] = [
+  { day: "Sunday Morning", time: "10:00 AM", title: "Main Worship Service" },
+  { day: "Sunday Evening", time: "6:00 PM", title: "Evening Service" },
+  { day: "Wednesday", time: "7:00 PM", title: "Bible Study" },
+];
+
+export const churchInfo = {
+  name: "Nehemiah's Temple of the Apostolic Faith",
+  shortName: "Nehemiah's Temple",
+  tagline: "Come As You Are and Change As You Come",
+  address: "1234 Faith Avenue, Springfield, USA",
+  phone: "(555) 123-4567",
+};
+
 export const STATUS_LABEL: Record<ContentStatus, string> = {
   draft: "Draft",
   pending: "Pending review",
