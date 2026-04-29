@@ -11,7 +11,7 @@ import { StatusPill } from "./admin.events";
 import { Check, X, RotateCcw } from "lucide-react";
 
 export const Route = createFileRoute("/admin/approvals")({
-  component: AdminApprovals;
+  component: AdminApprovals,
 });
 
 type Item =
