@@ -245,6 +245,11 @@ function NewPage() {
       <main className="mx-auto max-w-[640px] px-4 pt-6 pb-32 sm:pb-12">
         <form onSubmit={onSubmit} noValidate>
           <div className="rounded-2xl bg-white p-6 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
+            {errors.form && (
+              <div className="mb-4 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+                {errors.form}
+              </div>
+            )}
             <div className="space-y-6">
               <FieldText
                 label="Your Name"
