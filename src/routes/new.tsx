@@ -164,11 +164,32 @@ function NewPage() {
     setErrors({});
     setSubmitting(true);
     try {
-      // TODO: POST to /api/visitor when wired
-      // await fetch("/api/visitor", { method: "POST", body: JSON.stringify({ ...parsed.data, created_at: new Date().toISOString() }) });
-      await new Promise((r) => setTimeout(r, 600));
+      const res = await fetch("/api/public/visitor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: parsed.data.name,
+          email: parsed.data.email,
+          phone: parsed.data.phone || undefined,
+          first_time: parsed.data.first_time === "yes",
+          interests: parsed.data.interests,
+        }),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok || !json.ok) {
+        setErrors({
+          form: json.error || "Something went wrong. Please try again.",
+        });
+        return;
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
       setDone(true);
+    } catch (err) {
+      console.error("visitor submit failed", err);
+      setErrors({ form: "Network error. Please try again." });
     } finally {
       setSubmitting(false);
     }
