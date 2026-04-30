@@ -22,6 +22,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminApprovalsRouteImport } from './routes/admin.approvals'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin.announcements'
+import { Route as ApiPublicVisitorRouteImport } from './routes/api/public/visitor'
 
 const TodayRoute = TodayRouteImport.update({
   id: '/today',
@@ -88,6 +89,11 @@ const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiPublicVisitorRoute = ApiPublicVisitorRouteImport.update({
+  id: '/api/public/visitor',
+  path: '/api/public/visitor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/public/visitor': typeof ApiPublicVisitorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin': typeof AdminIndexRoute
+  '/api/public/visitor': typeof ApiPublicVisitorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/': typeof AdminIndexRoute
+  '/api/public/visitor': typeof ApiPublicVisitorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/admin/approvals'
     | '/admin/events'
     | '/admin/'
+    | '/api/public/visitor'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
     | '/admin/approvals'
     | '/admin/events'
     | '/admin'
+    | '/api/public/visitor'
   id:
     | '__root__'
     | '/'
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/admin/approvals'
     | '/admin/events'
     | '/admin/'
+    | '/api/public/visitor'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   KidsRoute: typeof KidsRoute
   NewRoute: typeof NewRoute
   TodayRoute: typeof TodayRoute
+  ApiPublicVisitorRoute: typeof ApiPublicVisitorRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -286,6 +299,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnnouncementsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/public/visitor': {
+      id: '/api/public/visitor'
+      path: '/api/public/visitor'
+      fullPath: '/api/public/visitor'
+      preLoaderRoute: typeof ApiPublicVisitorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -315,16 +335,8 @@ const rootRouteChildren: RootRouteChildren = {
   KidsRoute: KidsRoute,
   NewRoute: NewRoute,
   TodayRoute: TodayRoute,
+  ApiPublicVisitorRoute: ApiPublicVisitorRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
