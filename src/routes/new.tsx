@@ -296,20 +296,26 @@ function NewPage() {
                   {INTERESTS.map((interest) => {
                     const checked = interests.includes(interest);
                     return (
-                      <label
+                      <button
                         key={interest}
-                        className={`flex cursor-pointer items-center gap-3 rounded-[14px] border-2 px-3.5 py-3 text-base font-medium transition-colors ${
-                          checked
-                            ? "border-[#c4956c] bg-[#c4956c]/10 text-[#c4956c]"
-                            : "border-[#e5e7eb] text-[#364153] hover:border-[#c4956c]/50"
-                        }`}
+                        type="button"
+                        onClick={() => toggleInterest(interest)}
+                        aria-pressed={checked}
+                        className="flex w-full cursor-pointer items-center gap-3 rounded-[14px] border-2 px-3.5 py-3 text-left text-base font-medium transition-colors"
+                        style={{
+                          borderColor: checked ? "#c4956c" : "#e5e7eb",
+                          backgroundColor: checked
+                            ? "rgba(196,149,108,0.1)"
+                            : "#ffffff",
+                          color: checked ? "#c4956c" : "#364153",
+                        }}
                       >
                         <span
-                          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 ${
-                            checked
-                              ? "border-[#c4956c] bg-[#c4956c]"
-                              : "border-[#d1d5db] bg-white"
-                          }`}
+                          className="flex h-5 w-5 shrink-0 items-center justify-center rounded border-2"
+                          style={{
+                            borderColor: checked ? "#c4956c" : "#d1d5db",
+                            backgroundColor: checked ? "#c4956c" : "#ffffff",
+                          }}
                         >
                           {checked && (
                             <Check
@@ -318,14 +324,8 @@ function NewPage() {
                             />
                           )}
                         </span>
-                        <input
-                          type="checkbox"
-                          className="sr-only"
-                          checked={checked}
-                          onChange={() => toggleInterest(interest)}
-                        />
                         {interest}
-                      </label>
+                      </button>
                     );
                   })}
                 </div>
@@ -425,11 +425,13 @@ function SegmentButton({
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`h-[52px] rounded-[14px] border-2 text-base font-medium transition-colors ${
-        selected
-          ? "border-[#c4956c] bg-[#c4956c]/10 text-[#c4956c] font-semibold"
-          : "border-[#e5e7eb] text-[#364153] hover:border-[#c4956c]/50"
-      }`}
+      className="h-[52px] rounded-[14px] border-2 text-base font-medium transition-colors"
+      style={{
+        borderColor: selected ? "#c4956c" : "#e5e7eb",
+        backgroundColor: selected ? "rgba(196,149,108,0.1)" : "#ffffff",
+        color: selected ? "#c4956c" : "#364153",
+        fontWeight: selected ? 600 : 500,
+      }}
     >
       {children}
     </button>
