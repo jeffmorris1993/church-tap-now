@@ -133,7 +133,7 @@ export const churchInfo = {
   name: "Nehemiah's Temple of the Apostolic Faith",
   shortName: "Nehemiah's Temple",
   tagline: "Come As You Are and Change As You Come",
-  address: "1234 Faith Avenue, Springfield, USA",
+  address: "27303 Palmer St, Madison Heights, MI 48071",
   phone: "(555) 123-4567",
 };
 
