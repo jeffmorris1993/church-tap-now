@@ -1,20 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   CalendarDays,
-  Sparkles,
-  Baby,
+  Bell,
+  Users,
   HandHeart,
   UserPlus,
-  MessageSquareHeart,
+  MessageSquare,
   ShieldCheck,
   ChevronRight,
-  Clock,
-  MapPin,
-  Phone,
+  Calendar,
   type LucideIcon,
 } from "lucide-react";
-import heroImage from "@/assets/sanctuary-hero.jpg";
-import logo from "@/assets/nt-logo.png";
+import heroImage from "@/assets/leadership-hero.jpg";
 import { serviceTimes, churchInfo } from "@/lib/content";
 
 export const Route = createFileRoute("/go")({
@@ -42,16 +39,53 @@ interface MenuItem {
   title: string;
   description: string;
   icon: LucideIcon;
-  tone: "primary" | "accent";
+  /** Tailwind gradient classes from→to, sampled from the Figma design */
+  gradient: string;
 }
 
 const menuItems: MenuItem[] = [
-  { to: "/new", title: "I'm New Here", description: "Connect with us", icon: UserPlus, tone: "primary" },
-  { to: "/today", title: "Today at Nehemiah", description: "Announcements & schedule", icon: Sparkles, tone: "accent" },
-  { to: "/events", title: "Events & Signups", description: "What's coming up", icon: CalendarDays, tone: "accent" },
-  { to: "/kids", title: "Kids + Youth Hub", description: "For families", icon: Baby, tone: "accent" },
-  { to: "/give", title: "Give", description: "Support the ministry", icon: HandHeart, tone: "primary" },
-  { to: "/feedback", title: "Feedback / Prayer", description: "We're here for you", icon: MessageSquareHeart, tone: "accent" },
+  {
+    to: "/new",
+    title: "I'm New Here",
+    description: "Connect with us",
+    icon: UserPlus,
+    gradient: "from-[#8b6f47] to-[#6b5635]",
+  },
+  {
+    to: "/today",
+    title: "Today at Nehemiah",
+    description: "Announcements & schedule",
+    icon: Bell,
+    gradient: "from-[#c4956c] to-[#8b6f47]",
+  },
+  {
+    to: "/events",
+    title: "Events & Signups",
+    description: "What's coming up",
+    icon: Calendar,
+    gradient: "from-[#6b4423] to-[#4a2f18]",
+  },
+  {
+    to: "/kids",
+    title: "Kids + Youth Hub",
+    description: "For families",
+    icon: Users,
+    gradient: "from-[#9b7d54] to-[#7b5d34]",
+  },
+  {
+    to: "/give",
+    title: "Give",
+    description: "Support the ministry",
+    icon: HandHeart,
+    gradient: "from-[#a37e5a] to-[#836342]",
+  },
+  {
+    to: "/feedback",
+    title: "Feedback / Prayer",
+    description: "We're here for you",
+    icon: MessageSquare,
+    gradient: "from-[#d4a574] to-[#b48a5c]",
+  },
 ];
 
 const navLinks = [
@@ -64,120 +98,115 @@ const navLinks = [
 
 function GoPage() {
   return (
-    <div className="min-h-screen bg-warm-gradient">
+    <div className="min-h-screen bg-[#fafafa]">
       {/* Header */}
-      <header className="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link to="/go" className="flex items-center gap-2.5">
-            <img
-              src={logo}
-              alt="Nehemiah's Temple logo"
-              width={36}
-              height={36}
-              className="h-9 w-9 rounded-lg bg-warm/60 p-1"
-            />
+      <header className="sticky top-0 z-20 border-b border-[#e5e7eb] bg-white">
+        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
+          {/* Logo */}
+          <Link to="/go" className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#c4956c]">
+              <span className="text-base font-bold text-white tracking-tight">
+                NT
+              </span>
+            </div>
             <div className="leading-tight">
-              <div className="font-display text-base font-semibold text-foreground sm:text-lg">
+              <div className="text-base font-bold text-[#101828]">
                 {churchInfo.shortName}
               </div>
-              <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">
-                Tap Hub
-              </div>
+              <div className="text-xs text-[#6a7282]">Tap Hub</div>
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+          {/* Admin button (center on desktop) */}
+          <Link
+            to="/admin"
+            className="inline-flex items-center gap-2 rounded-[10px] px-2 py-2 text-sm font-medium text-[#4a5565] hover:bg-[#f9fafb]"
+          >
+            <ShieldCheck className="h-5 w-5" />
+            <span>Admin</span>
+          </Link>
+
+          {/* Primary nav */}
+          <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
             {navLinks.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 activeOptions={{ exact: true }}
-                activeProps={{ className: "bg-warm text-foreground" }}
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-foreground/75 hover:bg-warm/70 hover:text-foreground"
+                activeProps={{ className: "text-[#101828]" }}
+                className="text-base font-medium text-[#364153] hover:text-[#101828]"
               >
                 {l.label}
               </Link>
             ))}
           </nav>
-
-          <Link
-            to="/admin"
-            aria-label="Staff sign in"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-warm/70 text-foreground/70 hover:bg-warm hover:text-foreground"
-          >
-            <ShieldCheck className="h-4 w-4" />
-          </Link>
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-4 pb-16 pt-6 sm:px-6 sm:pt-10">
+      <main className="mx-auto max-w-[640px] px-4 pt-8 pb-8">
         {/* Hero */}
         <section
           aria-labelledby="hero-title"
-          className="relative overflow-hidden rounded-3xl shadow-lift"
+          className="relative overflow-hidden rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
         >
           <img
             src={heroImage}
-            alt="Nehemiah's Temple sanctuary"
-            width={1920}
-            height={1080}
-            className="h-64 w-full object-cover sm:h-80 md:h-96"
+            alt="Nehemiah's Temple leadership"
+            width={1280}
+            height={640}
+            className="h-80 w-full object-cover"
           />
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/10"
+            className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"
           />
-          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8">
+          <div className="absolute inset-x-0 bottom-0 px-8 pt-8 pb-6">
             <h1
               id="hero-title"
-              className="font-display text-2xl font-semibold leading-tight text-white drop-shadow-sm sm:text-4xl"
+              className="text-[36px] font-bold leading-[40px] text-white"
             >
               {churchInfo.name}
             </h1>
-            <p className="mt-2 max-w-md text-sm text-white/90 sm:text-base">
+            <p className="mt-2 text-lg font-medium text-white/95">
               {churchInfo.tagline}
             </p>
           </div>
         </section>
 
         {/* Welcome */}
-        <section className="mt-10 text-center sm:mt-12">
-          <h2 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
+        <section className="mt-8 text-center">
+          <h2 className="text-[30px] font-bold leading-9 text-[#101828]">
             Welcome! <span aria-hidden>👋</span>
           </h2>
-          <p className="mt-2 text-base text-muted-foreground">
+          <p className="mt-2 text-lg text-[#4a5565]">
             Choose an option below to get started
           </p>
         </section>
 
         {/* Action Cards */}
-        <section className="mt-6 space-y-3" aria-label="Tap menu">
+        <section className="mt-8 space-y-4" aria-label="Tap menu">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const accent =
-              item.tone === "primary"
-                ? "bg-primary text-primary-foreground"
-                : "bg-accent text-accent-foreground";
             return (
               <Link
                 key={item.to}
                 to={item.to}
-                className="tap-card flex items-center gap-4 p-4 sm:gap-5 sm:p-5"
+                className="group flex h-[108px] items-center gap-4 rounded-2xl border-2 border-[#f3f4f6] bg-white px-5 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)] transition-transform active:scale-[0.99]"
               >
                 <div
-                  className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${accent}`}
+                  className={`inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-b ${item.gradient} shadow-[0_10px_15px_0_rgba(0,0,0,0.1),0_4px_6px_0_rgba(0,0,0,0.1)]`}
                 >
-                  <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <Icon className="h-8 w-8 text-white" strokeWidth={2} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="font-display text-lg font-semibold text-foreground sm:text-xl">
+                  <div className="text-lg font-bold text-[#101828]">
                     {item.title}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-[#4a5565]">
                     {item.description}
                   </div>
                 </div>
-                <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
+                <ChevronRight className="h-6 w-6 shrink-0 text-[#99a1af]" />
               </Link>
             );
           })}
@@ -186,28 +215,30 @@ function GoPage() {
         {/* Service Times */}
         <section
           aria-labelledby="service-times-title"
-          className="mt-10 rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-6"
+          className="mt-8 rounded-3xl bg-white px-6 pt-6 pb-6 shadow-[0_20px_25px_0_rgba(0,0,0,0.1),0_8px_10px_0_rgba(0,0,0,0.1)]"
         >
-          <div className="mb-4 flex items-center gap-2">
-            <Clock className="h-5 w-5 text-primary" />
+          <div className="flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-[#c4956c]" />
             <h2
               id="service-times-title"
-              className="font-display text-xl font-semibold text-foreground"
+              className="text-lg font-bold text-[#101828]"
             >
               Service Times
             </h2>
           </div>
-          <ul className="divide-y divide-border">
+          <ul className="mt-4 space-y-3">
             {serviceTimes.map((s) => (
               <li
                 key={`${s.day}-${s.time}`}
-                className="flex items-start justify-between gap-4 py-3 first:pt-0 last:pb-0"
+                className="flex h-[68px] items-center justify-between rounded-[14px] bg-[#f9fafb] px-3"
               >
                 <div>
-                  <div className="font-medium text-foreground">{s.day}</div>
-                  <div className="text-sm text-muted-foreground">{s.title}</div>
+                  <div className="text-base font-semibold text-[#101828]">
+                    {s.day}
+                  </div>
+                  <div className="text-sm text-[#4a5565]">{s.title}</div>
                 </div>
-                <div className="font-display text-base font-semibold text-primary">
+                <div className="text-base font-bold text-[#c4956c]">
                   {s.time}
                 </div>
               </li>
@@ -215,32 +246,22 @@ function GoPage() {
           </ul>
         </section>
 
-        {/* Scripture */}
-        <div className="mt-8 rounded-2xl border border-border/70 bg-card/60 p-5 text-center shadow-soft">
-          <p className="text-sm italic text-muted-foreground">
-            "How beautiful upon the mountains are the feet of him that bringeth good tidings…"
-          </p>
-          <p className="mt-1 text-xs font-medium uppercase tracking-wider text-primary/80">
-            Isaiah 52:7
-          </p>
+        {/* Address + phone */}
+        <div className="mt-8 space-y-1 text-center">
+          <p className="text-sm text-[#6a7282]">{churchInfo.address}</p>
+          <p className="text-sm text-[#6a7282]">{churchInfo.phone}</p>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/60 bg-background/40">
-        <div className="mx-auto max-w-3xl px-4 py-6 text-center text-xs text-muted-foreground sm:px-6">
-          <div className="flex flex-col items-center justify-center gap-1.5 sm:flex-row sm:gap-4">
-            <span className="inline-flex items-center gap-1.5">
-              <MapPin className="h-3.5 w-3.5" />
-              {churchInfo.address}
-            </span>
-            <span className="hidden sm:inline" aria-hidden>·</span>
-            <span className="inline-flex items-center gap-1.5">
-              <Phone className="h-3.5 w-3.5" />
-              {churchInfo.phone}
-            </span>
-          </div>
-          <div className="mt-2">© {new Date().getFullYear()} {churchInfo.shortName} · Tap Hub</div>
+      <footer className="border-t border-[#e5e7eb] bg-white">
+        <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-4">
+          <Link
+            to="/feedback"
+            className="text-sm text-[#c4956c] hover:underline"
+          >
+            Need help?
+          </Link>
         </div>
       </footer>
     </div>
